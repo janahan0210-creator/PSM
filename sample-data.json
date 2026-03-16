@@ -1,0 +1,107 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "title": "Sample Field Survey Points – Kuala Lumpur",
+    "description": "Demo dataset for GIS Field Collector PWA",
+    "created": "2026-03-17",
+    "crs": "EPSG:4326"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "PT-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [101.6869, 3.1390]
+      },
+      "properties": {
+        "name": "Kuala Lumpur City Centre",
+        "description": "Central business district reference point.",
+        "category": "Reference",
+        "surveyed_by": "Field Team A",
+        "date_collected": "2026-03-10",
+        "notes": "High-rise density area."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "PT-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [101.7100, 3.1578]
+      },
+      "properties": {
+        "name": "KLCC Park",
+        "description": "Urban green space adjacent to Petronas Twin Towers.",
+        "category": "Green Space",
+        "surveyed_by": "Field Team A",
+        "date_collected": "2026-03-10",
+        "notes": "Vegetation cover approx. 40%."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "PT-003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [101.6560, 3.1073]
+      },
+      "properties": {
+        "name": "Brickfields (Little India)",
+        "description": "Heritage and cultural district.",
+        "category": "Cultural Site",
+        "surveyed_by": "Field Team B",
+        "date_collected": "2026-03-11",
+        "notes": "High pedestrian activity."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "PT-004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [101.6855, 3.0738]
+      },
+      "properties": {
+        "name": "Universiti Malaya",
+        "description": "Main campus of Universiti Malaya.",
+        "category": "Education",
+        "surveyed_by": "Field Team B",
+        "date_collected": "2026-03-11",
+        "notes": "Large campus with mixed land use."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "PT-005",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [101.7468, 3.1596]
+      },
+      "properties": {
+        "name": "Ampang Lookout Point",
+        "description": "Elevated observation area east of the city.",
+        "category": "Observation",
+        "surveyed_by": "Field Team C",
+        "date_collected": "2026-03-12",
+        "notes": "Good line-of-sight for signal testing."
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "PT-006",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [101.6641, 3.1719]
+      },
+      "properties": {
+        "name": "Titiwangsa Lake Gardens",
+        "description": "Recreational lake park in northern KL.",
+        "category": "Green Space",
+        "surveyed_by": "Field Team C",
+        "date_collected": "2026-03-12",
+        "notes": "Water body present; flood-prone zone."
+      }
+    }
+  ]
+}
