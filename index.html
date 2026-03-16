@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2c7a4b" />
+  <meta name="description" content="Offline GIS Field Data Collection – Final Year Project" />
+
+  <title>GIS Field Collector</title>
+
+  <!-- PWA Web App Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+  <!-- App stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-left">
+      <span class="header-icon">📍</span>
+      <h1>GIS Field Collector</h1>
+    </div>
+    <span id="status-badge" class="status-badge">Checking…</span>
+  </header>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+
+    <button id="btn-add-location" class="btn btn-primary">
+      ➕ Add Location
+    </button>
+
+    <button id="btn-save-data" class="btn btn-success">
+      💾 Save Data
+    </button>
+
+    <button id="btn-view-offline" class="btn btn-info">
+      📂 View Offline Data
+    </button>
+
+  </div>
+
+  <!-- MAP -->
+  <div id="map"></div>
+
+  <!-- STATUS BAR -->
+  <div id="status-bar" class="status-bar">Ready.</div>
+
+  <!-- SCRIPTS -->
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- IndexedDB storage -->
+  <script src="js/storage.js"></script>
+
+  <!-- Map initialization -->
+  <script src="js/map.js"></script>
+
+  <!-- Main app logic -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>

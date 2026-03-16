@@ -1,0 +1,237 @@
+/* ================================================================
+   style.css  –  GIS Field Collector PWA
+   A clean, mobile-first stylesheet for the field data collection UI.
+   ================================================================ */
+
+/* ── 1. CSS Reset & Custom Properties ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-primary:    #2c7a4b;   /* dark green  */
+  --color-primary-dk: #1f5c38;   /* hover green */
+  --color-success:    #388e3c;
+  --color-info:       #1565c0;
+  --color-danger:     #c62828;
+  --color-bg:         #f4f6f8;
+  --color-surface:    #ffffff;
+  --color-text:       #333333;
+  --color-muted:      #666666;
+  --color-border:     #dddddd;
+  --header-height:    52px;
+  --toolbar-height:   52px;
+  --statusbar-height: 32px;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --radius:    6px;
+  --font:      'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ── 2. Base ── */
+html, body {
+  height: 100%;
+  font-family: var(--font);
+  background: var(--color-bg);
+  color: var(--color-text);
+  overflow: hidden;          /* prevent body scroll; map fills viewport */
+}
+
+/* ── 3. Header ── */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  box-shadow: var(--shadow-sm);
+  z-index: 1000;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-icon {
+  font-size: 1.3rem;
+}
+
+.app-header h1 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+/* ── 4. Online / Offline Status Badge ── */
+.status-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  transition: background 0.3s ease;
+  white-space: nowrap;
+}
+
+.status-badge.online  { background: #43a047; }
+.status-badge.offline { background: #e53935; }
+
+/* ── 5. Toolbar ── */
+.toolbar {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  height: var(--toolbar-height);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.75rem;
+  box-shadow: var(--shadow-sm);
+  z-index: 999;
+  overflow-x: auto;          /* scroll on very small screens */
+}
+
+/* ── 6. Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--font);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+.btn-primary:hover  { background: var(--color-primary-dk); }
+.btn-primary.active { background: #e65100; box-shadow: 0 0 0 3px rgba(230,81,0,0.35); }
+
+.btn-success {
+  background: var(--color-success);
+  color: #fff;
+}
+.btn-success:hover { background: #2e7d32; }
+
+.btn-info {
+  background: var(--color-info);
+  color: #fff;
+}
+.btn-info:hover { background: #0d47a1; }
+
+/* ── 7. Map ── */
+#map {
+  position: fixed;
+  top: calc(var(--header-height) + var(--toolbar-height));
+  left: 0;
+  right: 0;
+  /* leave room for the status bar at the bottom */
+  bottom: var(--statusbar-height);
+  z-index: 1;
+}
+
+/* Cursor changes when "Add Location" mode is active */
+#map.adding-mode {
+  cursor: crosshair !important;
+}
+
+/* ── 8. Status Bar ── */
+.status-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--statusbar-height);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  z-index: 1000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── 9. Leaflet Popup Customisation ── */
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.popup-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-primary);
+  margin-bottom: 0.3rem;
+}
+
+.popup-meta {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+.popup-meta span {
+  display: block;
+}
+
+/* ── 10. Collected-point marker pulse ring ── */
+@keyframes pulse {
+  0%   { transform: scale(1);   opacity: 0.8; }
+  70%  { transform: scale(1.6); opacity: 0;   }
+  100% { transform: scale(1.6); opacity: 0;   }
+}
+
+.marker-pulse {
+  width: 14px;
+  height: 14px;
+  background: #e65100;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.marker-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: rgba(230, 81, 0, 0.4);
+  animation: pulse 1.5s ease-out infinite;
+}
+
+/* ── 11. Responsive tweaks ── */
+@media (max-width: 480px) {
+  .app-header h1 { font-size: 0.9rem; }
+  .btn           { padding: 0.35rem 0.65rem; font-size: 0.75rem; }
+}
