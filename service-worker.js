@@ -1,5 +1,5 @@
 /* ================================================================
-   service-worker.js  –  GIS Field Collector PWA
+   service-worker.js  –  Offline Marine Spatial Analyzer PWA
    Strategy: Cache-First with Network Fallback
 
    Lifecycle:
@@ -11,7 +11,7 @@
 'use strict';
 
 /* ── Cache name (auto version using timestamp for development) ── */
-const CACHE_NAME = 'gis-field-collector-' + Date.now();
+const CACHE_NAME = 'Offline Marine Spatial Analyzer-' + Date.now();
 
 /* ── App shell: all files needed to run the app offline ── */
 const PRECACHE_URLS = [
