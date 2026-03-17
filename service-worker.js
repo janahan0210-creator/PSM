@@ -6,12 +6,12 @@
      install  → pre-cache all app shell assets
      activate → delete stale caches from old versions
      fetch    → serve from cache; fall back to network; cache new responses
-   ================================================================ */
+================================================================ */
 
 'use strict';
 
-/* ── Cache name (bump version string to force cache refresh) ── */
-const CACHE_NAME = 'gis-field-collector-v1';
+/* ── Cache name (auto version using timestamp for development) ── */
+const CACHE_NAME = 'gis-field-collector-' + Date.now();
 
 /* ── App shell: all files needed to run the app offline ── */
 const PRECACHE_URLS = [
@@ -41,7 +41,7 @@ const PRECACHE_URLS = [
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
 
-  /* Leaflet default marker images (used internally by Leaflet) */
+  /* Leaflet default marker images */
   'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
   'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png'
@@ -49,8 +49,6 @@ const PRECACHE_URLS = [
 
 /* ════════════════════════════════════════════════════════════════
    INSTALL EVENT
-   Pre-caches all app shell assets so the app can load offline
-   immediately after the first visit.
 ════════════════════════════════════════════════════════════════ */
 self.addEventListener('install', (event) => {
   console.log('[SW] Installing – pre-caching app shell…');
@@ -63,20 +61,14 @@ self.addEventListener('install', (event) => {
       })
       .then(() => {
         console.log('[SW] Pre-cache complete');
-        // Skip the waiting phase so the new SW activates immediately
         return self.skipWaiting();
       })
-      .catch((err) => {
-        // Log but don't crash – some CDN assets may fail in strict environments
-        console.error('[SW] Pre-cache error:', err);
-      })
+      .catch((err) => console.error('[SW] Pre-cache error:', err))
   );
 });
 
 /* ════════════════════════════════════════════════════════════════
    ACTIVATE EVENT
-   Removes caches that belong to older versions of the app.
-   This prevents stale assets from being served after an update.
 ════════════════════════════════════════════════════════════════ */
 self.addEventListener('activate', (event) => {
   console.log('[SW] Activating – cleaning up old caches…');
@@ -86,7 +78,7 @@ self.addEventListener('activate', (event) => {
       .then((cacheNames) => {
         return Promise.all(
           cacheNames
-            .filter((name) => name !== CACHE_NAME)   // keep only current cache
+            .filter((name) => name !== CACHE_NAME)
             .map((name) => {
               console.log('[SW] Deleting old cache:', name);
               return caches.delete(name);
@@ -95,41 +87,27 @@ self.addEventListener('activate', (event) => {
       })
       .then(() => {
         console.log('[SW] Activation complete');
-        // Take control of all open tabs immediately (no reload needed)
         return self.clients.claim();
       })
   );
 });
 
 /* ════════════════════════════════════════════════════════════════
-   FETCH EVENT  –  Cache-First Strategy
-   ──────────────────────────────────────────────────────────────
-   Step 1: Check the cache → return immediately if found.
-   Step 2: Cache miss → fetch from network → cache the response.
-   Step 3: Network fails (offline) →
-             • Navigation requests → serve index.html (app shell)
-             • Other requests      → return a 503 plain-text response
+   FETCH EVENT – Cache-First Strategy
 ════════════════════════════════════════════════════════════════ */
 self.addEventListener('fetch', (event) => {
-
-  // Only intercept GET requests (POST/PUT used for API calls should bypass SW)
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
 
-        /* ── Cache HIT: return the cached asset immediately ── */
         if (cachedResponse) {
           return cachedResponse;
         }
 
-        /* ── Cache MISS: fetch from the network ── */
         return fetch(event.request.clone())
           .then((networkResponse) => {
-
-            // Don't cache error responses or opaque responses from other origins
-            // (opaque = cross-origin requests without CORS headers)
             if (
               !networkResponse ||
               networkResponse.status !== 200 ||
@@ -138,27 +116,20 @@ self.addEventListener('fetch', (event) => {
               return networkResponse;
             }
 
-            // Clone the response: one copy goes to the cache, one to the browser
             const responseToCache = networkResponse.clone();
-
-            caches.open(CACHE_NAME)
-              .then((cache) => cache.put(event.request, responseToCache));
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
 
             return networkResponse;
           })
           .catch(() => {
-            /* ── Network FAILED (device is offline) ── */
-
-            // For page navigations, serve the cached app shell
             if (event.request.mode === 'navigate') {
               return caches.match('./index.html');
             }
 
-            // For other uncached resources, return a graceful error response
             return new Response(
               JSON.stringify({ error: 'Offline – resource not available in cache.' }),
               {
-                status:  503,
+                status: 503,
                 statusText: 'Service Unavailable',
                 headers: { 'Content-Type': 'application/json' }
               }
