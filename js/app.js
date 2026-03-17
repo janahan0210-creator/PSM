@@ -1,5 +1,5 @@
 /* ================================================================
-   app.js  –  GIS Field Collector PWA
+   app.js  –  Offline Marine Spatial Analyzer PWA
    Main application controller.
 
    Responsibilities:
