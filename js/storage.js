@@ -1,5 +1,5 @@
 /* ================================================================
-   storage.js  –  GIS Field Collector PWA
+   storage.js  –  Offline Marine Spatial Analyzer PWA
    Handles all IndexedDB operations for offline data persistence.
 
    Database : GISFieldDB  (version 1)
