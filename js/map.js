@@ -1,5 +1,5 @@
 /* ================================================================
-   map.js  –  GIS Field Collector PWA
+   map.js  –  Offline Marine Spatial Analyzer PWA
    Initialises the Leaflet map, loads the GeoJSON sample dataset,
    and exposes helper functions used by app.js.
    ================================================================ */
